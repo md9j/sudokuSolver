@@ -18,8 +18,17 @@ public class SudokuSolver {
                 {0,0,7,0,4,0,2,0,3}
         }; //end entire game board
         
+        System.out.println("Starting Game Board:");
         printBoard(board);  // print initial game board
         
+        if(solveBoard(board)){
+            System.out.println("\nVictory, the board has been solved!");
+            printBoard(board);
+        }  // end solveBoard
+        
+        else{
+            System.out.println("Sad face, this board could not be solved.");
+        }  // end else solveBoard
         
         
     }  // end main{}
@@ -56,9 +65,9 @@ public class SudokuSolver {
     
     
     // test if number is already in current column, yes = true, no = false
-    private static boolean isNumberInColumn(int[][] board, int number, int column){
+    private static boolean isNumberInColumn(int[][] board, int number, int col){
         for(int i = 0; i < GRID_SIZE; i++){
-            if(board[i][column] == number){
+            if(board[i][col] == number){
                 return true;
             }  // end if
         }  // end for
@@ -71,19 +80,51 @@ public class SudokuSolver {
         int boxRow = row - (row % 3);  // locate first space in row of 3x3 box
         int boxCol = col -(col % 3);  // locate first space in column of 3x3 box
     
+        //  iterate through 3x3 box spaces
+        for(int i = boxRow; i < boxRow + 3; i++){
+            for(int j = boxCol; j < boxCol + 3; j++){
+                if(board[i][j] == number){
+                    return true;
+                }  // end if == number
+            }  // end for boxCol
+        }  // end for boxRow
         return false;
     }  // end isNumberInBox
-
-    private static boolean isValidPlacement(){
-        
-        return false;
+    
+    // single call function to execute all functions to attempt board solution
+    // if all functions return false, this will return true signifying the placement is valid
+    private static boolean isValidPlacement(int[][] board, int number, int row, int col){
+        return !isNumberInRow(board, number, row) &&
+                !isNumberInColumn(board, number, col) &&
+                !isNumberInBox(board, number, row, col);
     }  // end isValidPlacement
     
     
-    // execute functions together to attempt board solution
-    private static boolean solveBoard(){
-        
-        return false;
+    // recursive function to attempt entire board solution
+    private static boolean solveBoard(int[][] board){
+        for(int row = 0; row < GRID_SIZE; row++){
+            for(int col = 0; col < GRID_SIZE; col++){
+                if(board[row][col] == 0){
+                    for(int numberToTry = 1; numberToTry <= GRID_SIZE; numberToTry++){
+                        if(isValidPlacement(board, numberToTry, row, col)){
+                            board[row][col] = numberToTry;
+                            if(solveBoard(board)){
+                                return true;
+                            }  // end recursive solveBoard()
+                            else{
+                                board[row][col] = 0;
+                            }  // end else, !isValidPlacement
+                            
+                        }  // end if isValidPlacement
+                        // if a number was not valid in recursive sequence, restart the
+                        // numberToTry sequence after returning false
+                        
+                    }  // end for numberToTry
+                    return false;
+                }  // end if == 0
+            }  // end for col
+        }  // end for row
+        return true;
     }  // end solveBoard
 
 
