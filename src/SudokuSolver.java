@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class SudokuSolver {
     private static final int GRID_SIZE = 9;
     public static void main(String[] args) {
@@ -6,20 +8,12 @@ public class SudokuSolver {
         // fill with content for game board
         // later update for user entry when program run
         // far future update for input with user taken picture of game board
-        int[][] board = {
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0,0}
-        }; //end entire game board
+        int[][] board = new int[GRID_SIZE][GRID_SIZE]; // create blank game board
         
         System.out.println("Starting Game Board:");
         printBoard(board);  // print initial game board
+        
+        enterPuzzleNumbersRowByRow(board);
         
         if(solveBoard(board)){
             System.out.println("\nVictory, the board has been solved!");
@@ -29,15 +23,13 @@ public class SudokuSolver {
         else{
             System.out.println("Sad face, this board could not be solved.");
         }  // end else solveBoard
-        
-        
     }  // end main{}
 
     //*** functions ***//
 
     private static void printBoard(int[][] board){
         
-        for(int row =0; row < GRID_SIZE; row++){
+        for(int row = 0; row < GRID_SIZE; row++){
             if(row % 3 ==0){
                 System.out.println(" -------------------------");
             }
@@ -127,8 +119,49 @@ public class SudokuSolver {
                 }  // end if == 0
             }  // end for col
         }  // end for row
+        System.out.println("Board is solvable");
         return true;
     }  // end solveBoard
+    
+    private static void printBoardMap(){
+        System.out.println("\n   Board Map\n---------------\n* Numbers will be entered by rows (format = row-column)" +
+                ":\nr1-1, r1-2,..., r1-9," +
+                " ... r9-1, r9-2, ... r9-9\n");
+        System.out.println("     1 2 3   4 5 6   7 8 9");
+        System.out.println("   -------------------------");
+        for(int row =1; row <= GRID_SIZE; row++){
+            System.out.println("r" + row + " | 0 0 0 | 0 0 0 | 0 0 0 |");
+            if(row % 3 == 0){
+                System.out.println("   -------------------------");
+            }  // end if
+        }  // end for row
+    }  // end printBoardMap
+
+    private static void enterPuzzleNumbersRowByRow(int[][] board){
+        System.out.println("Enter the numbers for your puzzle board one by one. Numbers will be entered by rows. " +
+                "Please use the following board map as reference for where your entered number will be placed.");
+        
+        printBoardMap();
+        
+        System.out.println("Please enter the numbers for your game board, remember that '0' represents a blank space " +
+                "that you are intended to solve. if you are choosing random numbers, the board will be checked for a " +
+                "solution once you complete your entries. If you created a puzzle that this program is unable to " +
+                "solve, you will need to enter new numbers.");
+        
+        Scanner scanner = new Scanner(System.in);
+         for(int row = 1; row <= GRID_SIZE; row++){
+             for(int col = 1; col <= GRID_SIZE; col++){
+                 System.out.println("Enter r" + row + "-" + col);
+                 board[row-1][col-1] = scanner.nextInt();
+             }  // end for col
+         }  // end for row
+        scanner.close();
+        printBoard(board);
+    }  // end
+    
+    private static void enterPuzzleNumbersBySpecificLocation(int[][] board){
+    
+    }  // end enterPuzzleNumbersBySpecificLocation
 
 
 }  // end SudokuSolver{}
