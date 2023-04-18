@@ -70,7 +70,7 @@ public class SudokuSolver {
         // vars to identify the (0,0) space within individual 3x3 box
         int boxRow = row - (row % 3);  // locate first space in row of 3x3 box
         int boxCol = col -(col % 3);  // locate first space in column of 3x3 box
-    //testing changes with this comment
+    
         return false;
     }  // end isNumberInBox
 
