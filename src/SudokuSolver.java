@@ -7,15 +7,15 @@ public class SudokuSolver {
         // later update for user entry when program run
         // far future update for input with user taken picture of game board
         int[][] board = {
-                {7,0,2,0,5,0,6,0,0},
-                {0,0,0,0,0,3,0,0,0},
-                {1,0,0,0,0,9,5,0,0},
-                {8,0,0,0,0,0,0,9,0},
-                {0,4,3,0,0,0,7,5,0},
-                {0,9,0,0,0,0,0,0,8},
-                {0,0,9,7,0,0,0,0,5},
-                {0,0,0,2,0,0,0,0,0},
-                {0,0,7,0,4,0,2,0,3}
+                {0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,0,0}
         }; //end entire game board
         
         System.out.println("Starting Game Board:");
@@ -39,17 +39,20 @@ public class SudokuSolver {
         
         for(int row =0; row < GRID_SIZE; row++){
             if(row % 3 ==0){
-                System.out.println(" ------------------------");
+                System.out.println(" -------------------------");
             }
             for(int col = 0; col < GRID_SIZE; col++){
                 if(col % 3 == 0){
                     System.out.print(" |");
-                }
+                }  // end if
                 System.out.print(" " + board[row][col]);
+                if(col == GRID_SIZE - 1){
+                    System.out.print(" |");
+                }  // end if
             }  // end for col
             System.out.println();
         }  // end for row
-        System.out.println(" ------------------------");
+        System.out.println(" -------------------------");
 
     }  // end printBoard()
     
