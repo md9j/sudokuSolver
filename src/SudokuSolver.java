@@ -197,19 +197,30 @@ public class SudokuSolver {
     }  // end printBoardMap
 
     private static void enterPuzzleNumbersRowByRow(int[][] board, Scanner scanner){
-        System.out.println("Enter the numbers for your puzzle board one by one. Numbers will be entered \nby rows. " +
-                "Please use the following board map as reference for where your entered number will \nbe placed.");
+        System.out.println("Enter the numbers for your puzzle board one by one. Numbers will be entered \nby rows.");
         
         System.out.println("Please enter the numbers for your game board, remember \n" +
-                "that '0' represents a blank space that is intended to be solved.");
+                "that the puzzle number must be in the range 1-9 and '0' represents \n" +
+                "a blank space that is intended to be solved.");
         
          for(int row = 1; row <= GRID_SIZE; row++){
              for(int col = 1; col <= GRID_SIZE; col++){
+                 
                  System.out.println("Enter r" + row + "-" + col);
-                 board[row-1][col-1] = scanner.nextInt();
+                
+                 int number = scanner.nextInt();
+                 
+                 if(number < 0 || number > 9){
+                     --row;
+                     --col;
+                     System.out.println("Invalid: number must be in the range 1-9 \n" +
+                             "and '0' represents a blank space that is intended to be solved");
+                 }
+                 else{
+                 board[row-1][col-1] = number;
              }  // end for col
          }  // end for row
-    }  // end
+    }  // end enterPuzzleNumbersRowByRow
     
     private static void enterPuzzleNumbersBySpecificLocation(int[][] board, boolean enterNumber, Scanner scanner){
         
