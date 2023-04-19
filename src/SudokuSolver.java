@@ -3,13 +3,12 @@ import java.util.Scanner;
 public class SudokuSolver {
     private static final int GRID_SIZE = 9;
     public static void main(String[] args) {
-        System.out.println("  Sudoku Solver Thingy!");
-        System.out.println("  ---------------------\n");
+        
         // far future update for input with user taken picture of game board
         int[][] board = new int[GRID_SIZE][GRID_SIZE]; // create blank game board
         
-        enterPuzzleNumbersRowByRow(board);
-        
+        menu();
+
         if(solveBoard(board)){
             System.out.println("\nVictory, the board has been solved!");
             printBoard(board);
@@ -21,6 +20,25 @@ public class SudokuSolver {
     }  // end main{}
 
     //*** functions ***//
+    
+    private static void menu(){
+        System.out.println("\n  Sudoku Solver Thingy!");
+        System.out.println(" -----------------------\n");
+        
+        System.out.println("Options:");
+        System.out.printf("\n%15s: %-10s", "Enter Numbers", "1");
+        System.out.printf("\n%15s: %-10s", "Grid Map", "2");
+        System.out.printf("\n%15s: %-10s", "Current Board", "3");
+        System.out.printf("\n%15s: %-10s", "Solve Board", "4");
+        System.out.printf("\n%15s: %-10s", "Quit", "Q");
+        
+        System.out.println("\n\nSelection: ");
+        
+        Scanner scanner = new Scanner(System.in);
+        
+        
+        
+    }  // end menu
 
     private static void printBoard(int[][] board){
         
@@ -114,7 +132,7 @@ public class SudokuSolver {
                 }  // end if == 0
             }  // end for col
         }  // end for row
-        System.out.println("Board is solvable");
+        System.out.println("\nBoard is solvable");
         return true;
     }  // end solveBoard
     
@@ -156,7 +174,88 @@ public class SudokuSolver {
     }  // end
     
     private static void enterPuzzleNumbersBySpecificLocation(int[][] board){
-    
+        boolean enterNumber = false;
+        
+        System.out.println("Options:");
+        System.out.printf("\n%15s: %-10s", "Grid Map", "M");
+        System.out.printf("\n%15s: %-10s", "Current Board", "B");
+        System.out.printf("\n%15s: %-10s", "Enter Numbers", "E\n");
+        System.out.println("\nSelection: ");
+        
+        Scanner scanner = new Scanner(System.in);
+        
+        char selection = Character.toLowerCase(scanner.next().charAt(0));
+        
+        switch(selection){
+            case 'm':
+                printBoardMap();
+                break;
+            case 'b':
+                printBoard(board);
+                break;
+            case 'e':
+                System.out.println("Format for entry: " +
+                        "\n\tRow Number (1-9) + Press Enter/Return, " +
+                        "\n\tColumn Number (1-9) + Press Enter/Return, " +
+                        "\n\tNumber to Place (0-9, 0 = Blank) + Press Enter/Return");
+                enterNumber = true;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + selection);
+        }  // end switch(selection)
+        
+        while(enterNumber){
+            
+            System.out.println("\nEnter the grid location for your number, press 'Q' to quit:");
+            char row = 0, col = 0, number = 0;
+            int rowToEnter = 0, columnToEnter = 0, numberToEnter = 0;
+            
+            // receive user input and validate entry
+            // once working, change validation to a function to make more
+            // concise and increase readability
+            System.out.println("\tRow: ");
+            row = scanner.next().charAt(0);
+            // check if user to quit
+            if(row == 'q'){
+                System.out.println("Exiting Number Entry");
+                enterNumber = false;
+                break;
+            }  // end if
+            // validate entry
+            else if (!Character.isDigit(row) || row < '1' || row > '9'){
+                System.out.println("Invalid Entry: Row must be a single digit in the range 1-9");
+            }  // end else if
+            else{
+                // convert row to an int
+                rowToEnter = Character.getNumericValue(row) - 1;
+            }  // end else
+            
+            System.out.println("\tColumn: ");
+            col = scanner.next().charAt(0);
+            // check if user to quit
+            if (!Character.isDigit(col) || col < '1' || col > '9'){
+                System.out.println("Invalid Entry: Column must be a single digit in the range 1-9");
+            }  // end else if
+            else{
+                // convert col to an int
+                columnToEnter = Character.getNumericValue(col) - 1;
+            }  // end else
+            
+            System.out.println("\tNumber: ");
+            number = scanner.next().charAt(0);
+
+            // validate entry
+            if (!Character.isDigit(number) || number < '0' || number > '9'){
+                System.out.println("Invalid Entry: Number must be a single digit in the range 0-9");
+            }  // end else if
+            else{
+                // convert number to an int
+                numberToEnter = Character.getNumericValue(number);
+            }  // end else
+            board[rowToEnter][columnToEnter] = numberToEnter;
+        } // end while enterNumber
+        
+       scanner.close();
     }  // end enterPuzzleNumbersBySpecificLocation
 
 
