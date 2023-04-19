@@ -203,23 +203,24 @@ public class SudokuSolver {
                 "that the puzzle number must be in the range 1-9 and '0' represents \n" +
                 "a blank space that is intended to be solved.");
         
-         for(int row = 1; row <= GRID_SIZE; row++){
-             for(int col = 1; col <= GRID_SIZE; col++){
+        
+         for(int row = 1; row <= GRID_SIZE; row++) {
+             for (int col = 1; col <= GRID_SIZE; col++) {
                  
                  System.out.println("Enter r" + row + "-" + col);
-                
+                 
                  int number = scanner.nextInt();
                  
-                 if(number < 0 || number > 9){
+                 if (number < 0 || number > 9) {
                      --row;
                      --col;
                      System.out.println("Invalid: number must be in the range 1-9 \n" +
                              "and '0' represents a blank space that is intended to be solved");
-                 }
-                 else{
-                 board[row-1][col-1] = number;
-             }  // end for col
-         }  // end for row
+                 } else {
+                     board[row - 1][col - 1] = number;
+                 }  // end for col
+             }  // end for row
+         }  // end for
     }  // end enterPuzzleNumbersRowByRow
     
     private static void enterPuzzleNumbersBySpecificLocation(int[][] board, boolean enterNumber, Scanner scanner){
