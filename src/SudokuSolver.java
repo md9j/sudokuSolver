@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class SudokuSolver {
@@ -7,37 +8,89 @@ public class SudokuSolver {
         // far future update for input with user taken picture of game board
         int[][] board = new int[GRID_SIZE][GRID_SIZE]; // create blank game board
         
-        menu();
-
-        if(solveBoard(board)){
-            System.out.println("\nVictory, the board has been solved!");
-            printBoard(board);
-        }  // end solveBoard
+        menu(board);
         
-        else{
-            System.out.println("Sad face, this board could not be solved.");
-        }  // end else solveBoard
     }  // end main{}
 
     //*** functions ***//
     
-    private static void menu(){
+    private static void menu(int[][] board){
         System.out.println("\n  Sudoku Solver Thingy!");
-        System.out.println(" -----------------------\n");
-        
-        System.out.println("Options:");
-        System.out.printf("\n%15s: %-10s", "Enter Numbers", "1");
-        System.out.printf("\n%15s: %-10s", "Grid Map", "2");
-        System.out.printf("\n%15s: %-10s", "Current Board", "3");
-        System.out.printf("\n%15s: %-10s", "Solve Board", "4");
-        System.out.printf("\n%15s: %-10s", "Quit", "Q");
-        
-        System.out.println("\n\nSelection: ");
+        System.out.println(" -----------------------");
         
         Scanner scanner = new Scanner(System.in);
         
+        boolean quit = false;
         
-        
+        while(!quit) {
+            
+            System.out.println("\nOptions:");
+            System.out.printf("\n%21s: %-10s", "Enter #'s by Location", "1");
+            System.out.printf("\n%21s: %-10s", "Enter #'s by row", "2");
+            System.out.printf("\n%21s: %-10s", "Board Map", "3");
+            System.out.printf("\n%21s: %-10s", "Current Board", "4");
+            System.out.printf("\n%21s: %-10s", "Check if Solvable", "5");
+            System.out.printf("\n%21s: %-10s", "Show Solution", "6");
+            System.out.printf("\n%21s: %-10s", "Reset Board", "7");
+            System.out.printf("\n%21s: %-10s", "Quit", "Q");
+            
+            System.out.println("\n\nSelection: ");
+            
+            
+            char selection = Character.toLowerCase(scanner.next().charAt(0));
+            boolean enterNumber = false;
+            
+            switch (selection) {
+                case '1':
+                    System.out.println("Format for entry: " +
+                            "\n\tRow Number (1-9) + Press Enter/Return, " +
+                            "\n\tColumn Number (1-9) + Press Enter/Return, " +
+                            "\n\tNumber to Place (0-9, 0 = Blank) + Press Enter/Return");
+                    enterNumber = true;
+                    enterPuzzleNumbersBySpecificLocation(board, enterNumber, scanner);
+                    break;
+                case '2':
+                    enterPuzzleNumbersRowByRow(board, scanner);
+                    break;
+                case '3':
+                    printBoardMap();
+                    break;
+                case '4':
+                    System.out.println("       Current Board");
+                    printBoard(board);
+                    break;
+                case '5':
+                    if(solveBoard(board)){
+                        System.out.println("\nBoard is solvable");
+                    }  // end if
+                    else{
+                        System.out.println("Board could not be solved");
+                    }  // end else
+                    break;
+                case '6':
+                    if(solveBoard(board)){
+                        System.out.println("\nVictory, the board has been solved!\n");
+                        System.out.println("         Solution");
+                        printBoard(board);
+                    }  // end solveBoard
+                    else{
+                        System.out.println("Sad face, this board could not be solved.");
+                    }  // end else solveBoard
+                    break;
+                case '7':
+                    // reset the board[][] to all zeros
+                    Arrays.stream(board).forEach(row -> Arrays.fill(row, 0));
+                    break;
+                case 'q':
+                    System.out.println("Quit? ...ok, see ya!");
+                    quit = true;
+                    break;
+                default:
+                    System.out.println("Unexpected value: " + selection);
+                    System.out.println("You must enter a number in the rang 1-7 or 'Q' to quit");
+            }  // end switch(selection)
+        }  // end while !quit
+        scanner.close();
     }  // end menu
 
     private static void printBoard(int[][] board){
@@ -126,18 +179,16 @@ public class SudokuSolver {
                         }  // end if isValidPlacement
                         // if a number was not valid in recursive sequence, restart the
                         // numberToTry sequence after returning false
-                        
                     }  // end for numberToTry
                     return false;
                 }  // end if == 0
             }  // end for col
         }  // end for row
-        System.out.println("\nBoard is solvable");
         return true;
     }  // end solveBoard
     
     private static void printBoardMap(){
-        System.out.println("\n   Board Map\n---------------\n* Numbers will be entered by rows (format = row-column)" +
+        System.out.println("\n   Board Map\n---------------\n* Numbers location format = row-column" +
                 ":\nr1-1, r1-2,..., r1-9," +
                 " ... r9-1, r9-2, ... r9-9\n");
         System.out.println("     1 2 3   4 5 6   7 8 9");
@@ -150,59 +201,22 @@ public class SudokuSolver {
         }  // end for row
     }  // end printBoardMap
 
-    private static void enterPuzzleNumbersRowByRow(int[][] board){
-        System.out.println("Enter the numbers for your puzzle board one by one. Numbers will be entered by rows. " +
-                "Please use the following board map as reference for where your entered number will be placed.");
-        
-        printBoardMap();
+    private static void enterPuzzleNumbersRowByRow(int[][] board, Scanner scanner){
+        System.out.println("Enter the numbers for your puzzle board one by one. Numbers will be entered \nby rows. " +
+                "Please use the following board map as reference for where your entered number will \nbe placed.");
         
         System.out.println("Please enter the numbers for your game board, remember \n" +
-                "that '0' represents a blank space that is intended to be solved. \n" +
-                "The board will be checked for a solution once you complete your entries. " +
-                "\nIf you created a puzzle that this program is unable to solve, \n" +
-                "you will be notified.");
+                "that '0' represents a blank space that is intended to be solved.");
         
-        Scanner scanner = new Scanner(System.in);
          for(int row = 1; row <= GRID_SIZE; row++){
              for(int col = 1; col <= GRID_SIZE; col++){
                  System.out.println("Enter r" + row + "-" + col);
                  board[row-1][col-1] = scanner.nextInt();
              }  // end for col
          }  // end for row
-        scanner.close();
-        printBoard(board);
     }  // end
     
-    private static void enterPuzzleNumbersBySpecificLocation(int[][] board){
-        boolean enterNumber = false;
-        
-        System.out.println("Options:");
-        System.out.printf("\n%15s: %-10s", "Grid Map", "M");
-        System.out.printf("\n%15s: %-10s", "Current Board", "B");
-        System.out.printf("\n%15s: %-10s", "Enter Numbers", "E\n");
-        System.out.println("\nSelection: ");
-        
-        Scanner scanner = new Scanner(System.in);
-        
-        char selection = Character.toLowerCase(scanner.next().charAt(0));
-        
-        switch(selection){
-            case 'm':
-                printBoardMap();
-                break;
-            case 'b':
-                printBoard(board);
-                break;
-            case 'e':
-                System.out.println("Format for entry: " +
-                        "\n\tRow Number (1-9) + Press Enter/Return, " +
-                        "\n\tColumn Number (1-9) + Press Enter/Return, " +
-                        "\n\tNumber to Place (0-9, 0 = Blank) + Press Enter/Return");
-                enterNumber = true;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + selection);
-        }  // end switch(selection)
+    private static void enterPuzzleNumbersBySpecificLocation(int[][] board, boolean enterNumber, Scanner scanner){
         
         while(enterNumber){
             
@@ -254,8 +268,6 @@ public class SudokuSolver {
             }  // end else
             board[rowToEnter][columnToEnter] = numberToEnter;
         } // end while enterNumber
-        
-       scanner.close();
     }  // end enterPuzzleNumbersBySpecificLocation
 
 
