@@ -119,10 +119,6 @@ public class SudokuSolver {
     }  // end solveBoard
     
     private static void printBoardMap(){
-        System.out.println("Enter the numbers for your puzzle board one by one. \n" +
-                "Numbers will be entered by rows. Please use the following board \n" +
-                "map as reference for where your entered number will be placed.");
-
         System.out.println("\n   Board Map\n---------------\n* Numbers will be entered by rows (format = row-column)" +
                 ":\nr1-1, r1-2,..., r1-9," +
                 " ... r9-1, r9-2, ... r9-9\n");
@@ -137,6 +133,8 @@ public class SudokuSolver {
     }  // end printBoardMap
 
     private static void enterPuzzleNumbersRowByRow(int[][] board){
+        System.out.println("Enter the numbers for your puzzle board one by one. Numbers will be entered by rows. " +
+                "Please use the following board map as reference for where your entered number will be placed.");
         
         printBoardMap();
         
