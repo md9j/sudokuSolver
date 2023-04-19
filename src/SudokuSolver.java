@@ -4,14 +4,9 @@ public class SudokuSolver {
     private static final int GRID_SIZE = 9;
     public static void main(String[] args) {
         System.out.println("  Sudoku Solver Thingy!");
-
-        // fill with content for game board
-        // later update for user entry when program run
+        System.out.println("  ---------------------\n");
         // far future update for input with user taken picture of game board
         int[][] board = new int[GRID_SIZE][GRID_SIZE]; // create blank game board
-        
-        System.out.println("Starting Game Board:");
-        printBoard(board);  // print initial game board
         
         enterPuzzleNumbersRowByRow(board);
         
@@ -124,6 +119,10 @@ public class SudokuSolver {
     }  // end solveBoard
     
     private static void printBoardMap(){
+        System.out.println("Enter the numbers for your puzzle board one by one. \n" +
+                "Numbers will be entered by rows. Please use the following board \n" +
+                "map as reference for where your entered number will be placed.");
+
         System.out.println("\n   Board Map\n---------------\n* Numbers will be entered by rows (format = row-column)" +
                 ":\nr1-1, r1-2,..., r1-9," +
                 " ... r9-1, r9-2, ... r9-9\n");
@@ -138,15 +137,14 @@ public class SudokuSolver {
     }  // end printBoardMap
 
     private static void enterPuzzleNumbersRowByRow(int[][] board){
-        System.out.println("Enter the numbers for your puzzle board one by one. Numbers will be entered by rows. " +
-                "Please use the following board map as reference for where your entered number will be placed.");
         
         printBoardMap();
         
-        System.out.println("Please enter the numbers for your game board, remember that '0' represents a blank space " +
-                "that you are intended to solve. if you are choosing random numbers, the board will be checked for a " +
-                "solution once you complete your entries. If you created a puzzle that this program is unable to " +
-                "solve, you will need to enter new numbers.");
+        System.out.println("Please enter the numbers for your game board, remember \n" +
+                "that '0' represents a blank space that is intended to be solved. \n" +
+                "The board will be checked for a solution once you complete your entries. " +
+                "\nIf you created a puzzle that this program is unable to solve, \n" +
+                "you will be notified.");
         
         Scanner scanner = new Scanner(System.in);
          for(int row = 1; row <= GRID_SIZE; row++){
