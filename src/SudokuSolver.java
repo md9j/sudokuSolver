@@ -36,7 +36,6 @@ public class SudokuSolver {
             
             System.out.println("\n\nSelection: ");
             
-            
             char selection = Character.toLowerCase(scanner.next().charAt(0));
             boolean enterNumber = false;
             
@@ -111,7 +110,6 @@ public class SudokuSolver {
             System.out.println();
         }  // end for row
         System.out.println(" -------------------------");
-
     }  // end printBoard()
     
     // test if number is already in current row, yes = true, no = false
@@ -123,7 +121,6 @@ public class SudokuSolver {
         }  // end for i
         return false;
     }  // end isNumberInRow()
-    
     
     // test if number is already in current column, yes = true, no = false
     private static boolean isNumberInColumn(int[][] board, int number, int col){
@@ -160,7 +157,6 @@ public class SudokuSolver {
                 !isNumberInBox(board, number, row, col);
     }  // end isValidPlacement
     
-    
     // recursive function to attempt entire board solution
     private static boolean solveBoard(int[][] board){
         for(int row = 0; row < GRID_SIZE; row++){
@@ -175,7 +171,6 @@ public class SudokuSolver {
                             else{
                                 board[row][col] = 0;
                             }  // end else, !isValidPlacement
-                            
                         }  // end if isValidPlacement
                         // if a number was not valid in recursive sequence, restart the
                         // numberToTry sequence after returning false
@@ -269,6 +264,4 @@ public class SudokuSolver {
             board[rowToEnter][columnToEnter] = numberToEnter;
         } // end while enterNumber
     }  // end enterPuzzleNumbersBySpecificLocation
-
-
 }  // end SudokuSolver{}
